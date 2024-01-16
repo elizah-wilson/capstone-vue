@@ -1,6 +1,6 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
+import 'bootstrap/dist/css/bootstrap.min.css'
 </script>
 
 <template>
@@ -8,6 +8,9 @@ import { RouterLink, RouterView } from 'vue-router'
   <RouterView></RouterView>
 </template>
 
-<style scoped>
-  
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
 </style>

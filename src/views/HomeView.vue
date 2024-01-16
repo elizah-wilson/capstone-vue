@@ -1,16 +1,17 @@
 <script setup>
 import $ from 'jquery'
 import { ref, onMounted } from 'vue'
+import Header from '../components/Header.vue'
 
 
 onMounted(() => {
   (function( $ ) {
   
-  console.clear()
-  console.log('svgColor')
+  // console.clear()
+  // console.log('svgColor')
   
   var mainHolder, colorHolder
-  var btnRandom, btnClear, btnDownloadSVG, btnDownloadPNG
+  var btnRandom, btnClear
   var svgObject, svgOutline, svgColor 
   var swatchUp, swatchDown
   var fillSpeed = 0.15
@@ -20,7 +21,7 @@ onMounted(() => {
 
   function swatchClick(){
     chosenColor = $(this).data('color')
-    console.log(chosenColor)
+    // console.log(chosenColor)
     TweenMax.to(colorHolder, fillSpeed, { backgroundColor:chosenColor })
   }
   function swatchMove(e){
@@ -36,16 +37,29 @@ onMounted(() => {
     TweenMax.to($(this), 0.05, rollover); 
   }
   
-  function download(){
-    var svgInfo = document.querySelector('svg').outerHTML
-    var parser = new DOMParser();
-    var xmlDoc = parser.parseFromString(svgInfo,"text/xml");
-    var dl = document.createElement("a");
-    document.body.appendChild(dl); // This line makes it work in Firefox.
-    dl.setAttribute("href", "data:image/svg+xml;base64,"+xmlDoc);
-    dl.setAttribute("download", "test.svg");
-    dl.click();
-  }
+  // function download(){
+  //   var svgInfo = document.querySelector('svg').outerHTML
+  //   var parser = new DOMParser();
+  //   var xmlDoc = parser.parseFromString(svgInfo,"text/xml");
+  //   var dl = document.createElement("a");
+  //   document.body.appendChild(dl); // This line makes it work in Firefox.
+  //   dl.setAttribute("href", "data:image/svg+xml;base64,"+xmlDoc);
+  //   dl.setAttribute("download", "test.svg");
+  //   dl.click();
+  //}
+
+  /*  }
+  function svgDownloadSVG() {
+   var svgInfo = $(svgObject).clone();
+   console.clear()
+   console.log(svgInfo)
+   $(this).attr({
+            href:"data:image/svg+xml;base64,"+svgInfo.toString(),
+            download:'coloringBook.svg',
+            target:"_blank"
+    });
+  }   */
+
 
   function svgRandom() {
     $(svgColor).each(function(){
@@ -53,11 +67,13 @@ onMounted(() => {
       TweenMax.to(this, fillSpeed, { fill: colors[randomNum] });
     })
   }
+
   function svgClear() {
     $(svgColor).each(function(){
       TweenMax.to(this, fillSpeed, { fill: "#FFF" });
     })
   }
+
   function svgDownloadSVG() {
    var svgInfo = $(svgObject).clone();
    console.clear()
@@ -68,12 +84,7 @@ onMounted(() => {
             target:"_blank"
     });
   }
-  function svgDownloadPNG() {
-   // Future expantion:
-   // Look at https://bl.ocks.org/biovisualize/8187844
-  }
-  
-
+ 
   $.fn.makeSwatches = function() {
     var swatchHolder = $('<ol/>', {'class': 'swatchHolder'}).appendTo(this)
         colorHolder  = $('<li/>', {'class': 'colorHolder', 'text':'Current Color'}).css('background-color', chosenColor).appendTo(swatchHolder)
@@ -100,15 +111,34 @@ onMounted(() => {
     swatchUp   = {css:{bottom:0}}
     swatchDown = {css:{bottom:closeOffset}}
   } 
+
   $.fn.makeSVGcolor = function(svgURL) {
     mainHolder = this
+    // $ - define/access jQuery
+    // (selector) to "query" HTML elements
+    // action() to be performed on elements
+    // load method loads data from a server and puts the returned data into the mainHolder element
+    // syntax $(selector).load(URL, data, callback)
+    // 
     $( this ).load(svgURL, function() {
+      // svgObject is a variable that holdssvg element 
       svgObject  = $('svg', this)
+      console.log('svgObject')
+      console.log(svgObject)
+
       svgColor   = $('g#Color', svgObject).children()
+
+      console.log('svgObject.children')
+      console.log(svgObject.children())
+
+      console.log('svgColor')
+      console.log(svgColor)
       svgOutline = $('g:nth-child(1)', svgObject).children()
+      console.log('svgOutline')
+      console.log(svgOutline)
       $(svgColor).on('click', colorMe)
       $(mainHolder).makeSwatches()
-      $('.swatchHolder').addClass('gray')
+      $('.swatchHolder')
     });
   }
 
@@ -120,27 +150,26 @@ onMounted(() => {
     btnClear = this
     $(btnClear).on('click', svgClear)
   }
-  $.fn.btnDownload  = function(type) {
-    if(type == 'PNG'){
-      btnDownloadPNG = this
-      $(this).on('mouseenter', svgDownloadPNG)
-    } else {
-      btnDownloadSVG = this
-      $(this).on('mouseenter', svgDownloadSVG)
-    }
-  }
+  // $.fn.btnDownload  = function(type) {
+  //   if(type == 'PNG'){
+  //     btnDownloadPNG = this
+  //     $(this).on('mouseenter', svgDownloadPNG)
+  //   } else {
+  //     btnDownloadSVG = this
+  //     $(this).on('mouseenter', svgDownloadSVG)
+  //   }
+  // }
 
-  $.fn.btnDownload2 = function() {
-    btnClear = this
-    $(btnClear).on('click', download)
-  }
+  // $.fn.btnDownload2 = function() {
+  //   btnClear = this
+  //   $(btnClear).on('click', download)
+  // }
 
-
-$('#ActivityDIV'   ).makeSVGcolor('https://s3-us-west-2.amazonaws.com/s.cdpn.io/40041/cheshire.svg')
-$('#btnRandom'     ).btnRandom()
-$('#btnClear'      ).btnClear()
-$('#btnDownloadSVG').btnDownload()
-$('#btnDownloadSVG2').btnDownload2()
+$('#ActivityDIV').makeSVGcolor('https://mysvgfiles.s3.us-east-2.amazonaws.com/gardening.svg')
+$('#btnRandom').btnRandom()
+$('#btnClear').btnClear()
+// $('#btnDownloadSVG').btnDownload()
+// $('#btnDownloadSVG2').btnDownload2()
 }( jQuery ));
 })
 
@@ -148,59 +177,79 @@ $('#btnDownloadSVG2').btnDownload2()
 
 
 <template>
+<Header id="header"></Header>
 <div class='holder'>
-  <div class='Title'>Interactive Coloring Page</div>
-  <div id="imageonly"></div>
-  <div class='held' id='ActivityDIV'></div>
-  <div class='held'>
+  <div class='Title'>PAGE OF THE DAY</div>
+  <div class='bttns-container' id='ActivityDIV'></div>
+  <div class='bttns-container'>
     <a id="btnRandom"       class="button">Random Color</a>
     <a id="btnClear"        class="button">Clear Color</a>
+    <a id="btnDownloadSVG"  class="button gray">Download SVG</a>
+    <a id="btnDownloadSVG2" class="button gray">Download SVG2</a>
   </div>
+  <!-- <div id="prompt-container">
+      <p id="prompt">Prompt of the Day</p>
+      <textarea id="prompt-response" placeholder="Write your musings here..."></textarea>
+  </div> -->
 </div>
 </template>
 
 
 <style>
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+/* 
+#prompt-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+#prompt {
+ 
+}
+
+#prompt-response {
+  background-color: #134611;
+  cursor:text;
+  color: inherit;
+  padding: 10px;
+} */
 
 .holder{
   width:900px;
   height: 1100px;
-  background-image: url("https://assets.codepen.io/5936329/background-code.png");
-  
-  border-radius: 35px;
+  background-color: #0B5D1E;
+  /* border-radius: 35px; */
   align-self: center;
   justify-self: center;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+  /* -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box; */
   box-sizing: border-box;
   border: 0px solid ;
     
   display: inline-block;
  
-  margin: auto;
   padding: 2vmin;
- 
   
-}
-
-.imageonly{
- 
-background-image: url("https://assets.codepen.io/5936329/background-code.png");
- 
 }
 
 .Title{
   
-  font-family: 'Averia Gruesa Libre';
-  font-size: 60px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 25px;
   text-align: center;
-  padding: 30px;
-  Color: #b33a6d; 
-  
+  margin-bottom: 10px;
+  Color: white; 
   
 }
  
-.held{ 
+.bttns-container{ 
   position:relative;
   overflow:hidden;
   border-radius: 20px;
@@ -210,11 +259,9 @@ background-image: url("https://assets.codepen.io/5936329/background-code.png");
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   border: 0px;
- 
   margin: auto;
   padding: 2vmin;
  
-  
 }
 
 .buttons{
@@ -232,8 +279,7 @@ background-image: url("https://assets.codepen.io/5936329/background-code.png");
   height: 40px;
   line-height: 42px;
   border: none;  
-   
-  
+    
   outline:none;
  
   text-align: center;
@@ -255,20 +301,16 @@ background-image: url("https://assets.codepen.io/5936329/background-code.png");
     background: #b33a6d;
 } 
 
-
-
 .btnClear{
   font: 15px Arial, sans-serif;
 }
-.btnDownloadSVG{
-  font: 15px Arial, sans-serif;
-  
-} 
 
 #ActivityDIV{
   padding:65px; 
   background: white;
   border: 0px;
+  height: 690px;
+  border-radius: inherit;
   
 }
 
@@ -287,10 +329,12 @@ background-image: url("https://assets.codepen.io/5936329/background-code.png");
   width:260px;
   border-radius: 35px 35px 0px 0px;
   color: #232323;
-    background-image: url("https://assets.codepen.io/5936329/background-code.png");
+  background-color: white;
+  /* background-image: url("https://assets.codepen.io/5936329/background-code.png"); */
   border: 0px;
   
 }
+
 .colorHolder{
   width:100%;
   line-height: 100%;
