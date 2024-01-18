@@ -5,6 +5,13 @@ import Header from '../components/Header.vue'
 
 let prompt = ref()
 
+function currentDate() {
+  const current = new Date();
+  const date = `${current.getMonth() + 1}-${current.getDate()}-${current.getFullYear()}`;
+  return date
+}
+
+//fetchs quote of the day from my api
 function fetchPrompt() {
   fetch("http://localhost:3000/daily-quote")
     .then((response) => {
@@ -14,8 +21,29 @@ function fetchPrompt() {
       prompt.value = quote
     })
 }
-
 fetchPrompt()
+
+// post SVG file to aws s3 bucket
+function uploadSVG(svgInfo) {
+  let userId = 3
+
+  fetch("http://localhost:3000/upload/",
+    {
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({userId, svgInfo}),
+      method: "PUT"
+    })
+    .then(response => {
+      if (response.status === 200) {
+        alert("Object uploaded to bucket.")
+      } else {
+        alert("Something went wrong!")
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 
 onMounted(() => {
   (function ($) {
@@ -39,7 +67,7 @@ onMounted(() => {
       TweenMax.to('.swatchHolder', 0.5, moveTo);
     }
 
-    // fills selected element with chosen color and fills itat 0.15 speed 
+    // fills selected element with chosen color and fills it at 0.15 speed 
     function colorMe() {
       TweenMax.to(this, fillSpeed, { fill: chosenColor });
     }
@@ -50,22 +78,17 @@ onMounted(() => {
     }
 
     // grabs svg file
+    // change func to get svg tag
     function download() {
+      // grabbing the tag and the content inside it
       var svgInfo = document.querySelector('svg').outerHTML
       var parser = new DOMParser();
       // xmlDoc is svg element -
       var xmlDoc = parser.parseFromString(svgInfo, "image/svg+xml");
-      console.log(xmlDoc)
-
-      // don't need following code:
-      // var dl = document.createElement("a");
-      // document.body.appendChild(dl); // This line makes it work in Firefox.
-      // dl.setAttribute("href", "data:image/svg+xml;base64," + xmlDoc);
-      // dl.setAttribute("download", "test.svg");
-      // dl.click();
+      // calls function that makes the put request to aws s3 server 
+      uploadSVG(svgInfo)
     }
-
-
+   
     function svgDownloadSVG() {
       var svgInfo = $(svgObject).clone();
       console.clear()
@@ -146,29 +169,29 @@ onMounted(() => {
 
     // $.fn.btnDownload = function(type) {
 
-      // if (type == 'PNG') {
-      //   btnDownloadPNG = this
-      //   $(this).on('mouseenter', svgDownloadPNG)
-      // } else {
-      //   btnDownloadSVG = this
-      //   $(this).on('mouseenter', svgDownloadSVG)
-      // }
+    // if (type == 'PNG') {
+    //   btnDownloadPNG = this
+    //   $(this).on('mouseenter', svgDownloadPNG)
+    // } else {
+    //   btnDownloadSVG = this
+    //   $(this).on('mouseenter', svgDownloadSVG)
     // }
-    
+    // }
+
     // applies download functionality to the 
     $.fn.btnDownload = function () {
       btnClear = this
       $(btnClear).on('click', download)
     }
 
-    $('#ActivityDIV').makeSVGcolor('https://mysvgfiles.s3.us-east-2.amazonaws.com/mandala.svg')
+    $('#ActivityDIV').makeSVGcolor(`https://mysvgfiles.s3.us-east-2.amazonaws.com/${currentDate()}.svg`)
     $('#btnRandom').btnRandom()
     $('#btnClear').btnClear()
     // $('#btnDownloadSVG').btnDownload()
     $('#btnDownloadSVG').btnDownload()
   }(jQuery));
 
-  
+
 })
 </script>
 
@@ -182,7 +205,7 @@ onMounted(() => {
       <a id="btnRandom" class="button">Random Color</a>
       <a id="btnClear" class="button">Clear Color</a>
       <!-- <a id="btnDownloadSVG" class="button gray">download svg</a> -->
-      <a id="btnDownloadSVG" class="button gray">Download</a>
+      <a id="btnDownloadSVG" class="button gray">Put in Bucket</a>
     </div>
     <div id="prompt-container">
       <p id="prompt"> "{{ prompt }}" </p>
@@ -219,7 +242,8 @@ onMounted(() => {
   color: inherit;
   padding: 10px;
   width: 500px;
-  height: 150px;
+  height: 100px;
+  font-size: larger;
 }
 
 .holder {

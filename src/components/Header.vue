@@ -2,11 +2,11 @@
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 
+
 function currentDate() {
     const current = new Date();
     const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
     return date;
-
 }
 
 // 24-hour Countdown Timer

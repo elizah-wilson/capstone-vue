@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 
 <template>
     <div class="flex-container">
-        <div>
+        <div class="flex-column">
             <label for="email">Email:</label>
             <input type="email" id="email" name="login">
             <label for="password">Password:</label>
@@ -33,14 +33,14 @@ import { RouterLink } from 'vue-router'
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
+                    <img src="../assets/svg-files/mandala.svg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Second slide label</h5>
                         <p>Some representative placeholder content for the second slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
+                    <img src="../assets/svg-files/plant.svg" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Third slide label</h5>
                         <p>Some representative placeholder content for the third slide.</p>
@@ -67,7 +67,11 @@ import { RouterLink } from 'vue-router'
 }
 
 .flex-container {
+    display: flex;  
+}
+
+.flex-column {
     display: flex;
-    
+    flex-direction: column;
 }
 </style>
