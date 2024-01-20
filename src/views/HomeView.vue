@@ -1,5 +1,6 @@
 <script setup>
 import $ from 'jquery'
+import router from '@/router';
 import { ref, onMounted } from 'vue'
 import Header from '../components/Header.vue'
 
@@ -25,17 +26,17 @@ fetchPrompt()
 
 // post SVG file to aws s3 bucket
 function uploadSVG(svgInfo) {
-  let userId = 5
 
   fetch("http://localhost:3000/upload/",
     {
-      headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({userId, svgInfo}),
+      headers: { "Content-Type": "application/json", "Authorization": document.cookie },
+      body: JSON.stringify({ svgInfo }),
       method: "PUT"
     })
     .then(response => {
       if (response.status === 200) {
         alert("Object uploaded to bucket.")
+        router.push("/feed")
       } else {
         alert("Something went wrong!")
       }
@@ -86,9 +87,10 @@ onMounted(() => {
       // xmlDoc is svg element -
       var xmlDoc = parser.parseFromString(svgInfo, "image/svg+xml");
       // calls function that makes the put request to aws s3 server 
-      uploadSVG(svgInfo)
+      let svgInfoWHeader = `<?xml version="1.0" encoding="iso-8859-1"?> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">` + svgInfo
+      uploadSVG(svgInfoWHeader)
     }
-   
+
     function svgDownloadSVG() {
       var svgInfo = $(svgObject).clone();
       console.clear()
@@ -184,7 +186,7 @@ onMounted(() => {
       $(btnClear).on('click', download)
     }
 
-    $('#ActivityDIV').makeSVGcolor(`https://mysvgfiles.s3.us-east-2.amazonaws.com/mandala.svg`)
+    $('#ActivityDIV').makeSVGcolor(`https://mysvgfiles.s3.us-east-2.amazonaws.com/${currentDate()}/0.svg`)
     $('#btnRandom').btnRandom()
     $('#btnClear').btnClear()
     // $('#btnDownloadSVG').btnDownload()
@@ -260,6 +262,7 @@ onMounted(() => {
   display: inline-block;
 
   padding: 2vmin;
+  margin-bottom: 20px;
 
 
 }
