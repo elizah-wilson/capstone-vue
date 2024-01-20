@@ -25,7 +25,7 @@ fetchPrompt()
 
 // post SVG file to aws s3 bucket
 function uploadSVG(svgInfo) {
-  let userId = 3
+  let userId = 5
 
   fetch("http://localhost:3000/upload/",
     {
@@ -184,7 +184,7 @@ onMounted(() => {
       $(btnClear).on('click', download)
     }
 
-    $('#ActivityDIV').makeSVGcolor(`https://mysvgfiles.s3.us-east-2.amazonaws.com/${currentDate()}.svg`)
+    $('#ActivityDIV').makeSVGcolor(`https://mysvgfiles.s3.us-east-2.amazonaws.com/mandala.svg`)
     $('#btnRandom').btnRandom()
     $('#btnClear').btnClear()
     // $('#btnDownloadSVG').btnDownload()

@@ -26,10 +26,10 @@ fetch('http://localhost:3000/get-objects')
 <template>
     <Header id="header"></Header>
 
-    <div v-for="page in pages" id="feed">
-        <!-- escape slash  using literal interopolation-->
-        <img :src="page" >
-        <!-- use a filter function that will display pages that match the current date :) -->
+    <div id="feed">
+      
+        <img v-for="page in pages" :src="page" >
+    
     </div>
     
 </template>
