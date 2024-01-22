@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue'
 import Header from '../components/Header.vue'
 
 let prompt = ref()
+let response = ref('')
 
 function currentDate() {
   const current = new Date();
@@ -27,14 +28,16 @@ fetchPrompt()
 // post SVG file to aws s3 bucket
 function uploadSVG(svgInfo) {
 
+  //sends svg info to backend, which then puts svg info into object inside of s3 bucket
   fetch("http://localhost:3000/upload/",
     {
       headers: { "Content-Type": "application/json", "Authorization": document.cookie },
-      body: JSON.stringify({ svgInfo }),
+      // curly brackets implies that element it is an object, so looking for key value pairs
+      body: JSON.stringify({ "svgInfo": svgInfo, "prompt": prompt.value, "response": response.value }),
       method: "PUT"
     })
     .then(response => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         alert("Object uploaded to bucket.")
         router.push("/feed")
       } else {
@@ -44,12 +47,14 @@ function uploadSVG(svgInfo) {
     .catch(error => {
       console.log(error)
     })
+
+  
 }
 
 onMounted(() => {
   (function ($) {
     var mainHolder, colorHolder
-    var btnRandom, btnClear
+    var btnRandom, btnClear, element
     var svgObject, svgOutline, svgColor
     var swatchUp, swatchDown
     var fillSpeed = 0.15
@@ -80,12 +85,9 @@ onMounted(() => {
 
     // grabs svg file
     // change func to get svg tag
-    function download() {
+    function saveSVG() {
       // grabbing the tag and the content inside it
       var svgInfo = document.querySelector('svg').outerHTML
-      var parser = new DOMParser();
-      // xmlDoc is svg element -
-      var xmlDoc = parser.parseFromString(svgInfo, "image/svg+xml");
       // calls function that makes the put request to aws s3 server 
       let svgInfoWHeader = `<?xml version="1.0" encoding="iso-8859-1"?> <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">` + svgInfo
       uploadSVG(svgInfoWHeader)
@@ -169,28 +171,17 @@ onMounted(() => {
       $(btnClear).on('click', svgClear)
     }
 
-    // $.fn.btnDownload = function(type) {
-
-    // if (type == 'PNG') {
-    //   btnDownloadPNG = this
-    //   $(this).on('mouseenter', svgDownloadPNG)
-    // } else {
-    //   btnDownloadSVG = this
-    //   $(this).on('mouseenter', svgDownloadSVG)
-    // }
-    // }
-
     // applies download functionality to the 
-    $.fn.btnDownload = function () {
-      btnClear = this
-      $(btnClear).on('click', download)
+    $.fn.btnShowcase = function () {
+      element = this
+      $(element).on('click', saveSVG)
     }
 
     $('#ActivityDIV').makeSVGcolor(`https://mysvgfiles.s3.us-east-2.amazonaws.com/${currentDate()}/0.svg`)
     $('#btnRandom').btnRandom()
     $('#btnClear').btnClear()
     // $('#btnDownloadSVG').btnDownload()
-    $('#btnDownloadSVG').btnDownload()
+    $('#btnShowcase').btnShowcase()
   }(jQuery));
 
 
@@ -206,12 +197,11 @@ onMounted(() => {
     <div class='bttns-container'>
       <a id="btnRandom" class="button">Random Color</a>
       <a id="btnClear" class="button">Clear Color</a>
-      <!-- <a id="btnDownloadSVG" class="button gray">download svg</a> -->
-      <a id="btnDownloadSVG" class="button gray">Put in Bucket</a>
+      <a id="btnShowcase" class="button gray">Showcase</a>
     </div>
     <div id="prompt-container">
       <p id="prompt"> "{{ prompt }}" </p>
-      <textarea id="prompt-response" placeholder="Write your musings here..." maxlength="280"></textarea>
+      <textarea id="prompt-response" placeholder="Write your musings here..." maxlength="280" v-model="response"></textarea>
     </div>
   </div>
 </template>
@@ -262,7 +252,7 @@ onMounted(() => {
   display: inline-block;
 
   padding: 2vmin;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
 
 }
@@ -332,7 +322,7 @@ onMounted(() => {
 }
 
 #ActivityDIV {
-  /* padding: 65px; */
+
   background: white;
   border: 0px;
   height: 690px;

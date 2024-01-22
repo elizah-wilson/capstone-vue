@@ -31,8 +31,10 @@ setInterval(function time() {
         <h2 id="date"> {{ currentDate() }}</h2>
         <h1 id="title">The Coloring Book Club</h1>
         <div id="links-container">
+            <RouterLink to="/">Home</RouterLink>
             <RouterLink to="/feed">Feed</RouterLink>
             <RouterLink to="/account">My account</RouterLink>
+
         </div>
         <div id="countdown">
             <h2></h2>
@@ -50,8 +52,9 @@ setInterval(function time() {
     width: 100%;
     background: rgb(182, 215, 185);
     background: linear-gradient(90deg, rgba(182, 215, 185, 1) 0%, rgba(184, 51, 106, 1) 50%, rgba(208, 241, 191, 1) 100%);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 
 #date {
