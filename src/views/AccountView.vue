@@ -4,7 +4,7 @@ import Header from '../components/Header.vue'
 
 <template>
     <Header id="header"></Header>
-    <h1>User Account Page</h1>
+    <h1>Coming soon...</h1>
 </template>
 
 <style scoped></style>

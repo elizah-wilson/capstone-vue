@@ -3,42 +3,32 @@ import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 
 
-function currentDate() {
-    const current = new Date();
-    const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
-    return date;
-}
-
-// 24-hour Countdown Timer
-setInterval(function time() {
-    var d = new Date();
-    var hours = 24 - d.getHours();
-    var min = 60 - d.getMinutes();
-    if ((min + '').length == 1) {
-        min = '0' + min;
-    }
-    var sec = 60 - d.getSeconds();
-    if ((sec + '').length == 1) {
-        sec = '0' + sec;
-    }
-    jQuery('#countdown h2').html(hours + ':' + min + ':' + sec).addClass()
-}, 1000);
+// 24-hour Countdown Timer - removed not necessary
+// setInterval(function time() {
+//     var d = new Date();
+//     var hours = 24 - d.getHours();
+//     var min = 60 - d.getMinutes();
+//     if ((min + '').length == 1) {
+//         min = '0' + min;
+//     }
+//     var sec = 60 - d.getSeconds();
+//     if ((sec + '').length == 1) {
+//         sec = '0' + sec;
+//     }
+//     jQuery('#countdown h2').html(hours + ':' + min + ':' + sec).addClass()
+// }, 1000);
 
 </script>
 
 <template>
     <div id="header">
-        <h2 id="date"> {{ currentDate() }}</h2>
-        <h1 id="title">The Coloring Book Club</h1>
+        <h1><RouterLink to="/" class="links logo">The Coloring Book Club</RouterLink></h1>
         <div id="links-container">
-            <RouterLink to="/">Home</RouterLink>
-            <RouterLink to="/feed">Feed</RouterLink>
-            <RouterLink to="/account">My account</RouterLink>
+            <RouterLink to="/feed" class="links">Feed</RouterLink>
+            <RouterLink to="/account" class="links">My account</RouterLink>
 
         </div>
-        <div id="countdown">
-            <h2></h2>
-        </div>
+        
     </div>
 </template>
 
@@ -54,20 +44,24 @@ setInterval(function time() {
     background: linear-gradient(90deg, rgba(182, 215, 185, 1) 0%, rgba(184, 51, 106, 1) 50%, rgba(208, 241, 191, 1) 100%);
     margin-bottom: 10px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
 }
 
-#date {
-    margin-left: 3rem;
-    color: rgba(184, 51, 106, 1);
+.logo {
+    margin-left: 5rem;
 }
 
-#title {
+.links {
+    text-decoration: none;
     color: white;
 }
 
-#countdown {
-    margin-right: 3rem;
-    color: rgba(184, 51, 106, 1);
+#links-container {
+    display: flex;
+    font-size: larger;
+    font-weight: bold;
+    gap: 20px;
+    margin-right: 5rem;
 }
+
+
 </style>

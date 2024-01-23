@@ -13,6 +13,12 @@ function currentDate() {
   return date
 }
 
+function currentDatePage() {
+    const current = new Date();
+    const date = `${current.getMonth() + 1}/${current.getDate()}/${current.getFullYear()}`;
+    return date;
+}
+
 //fetchs quote of the day from my api
 function fetchPrompt() {
   fetch("http://localhost:3000/daily-quote")
@@ -38,7 +44,7 @@ function uploadSVG(svgInfo) {
     })
     .then(response => {
       if (response.status === 201) {
-        alert("Object uploaded to bucket.")
+        alert("You will be directed to the Feed Wall, where you can find your post!")
         router.push("/feed")
       } else {
         alert("Something went wrong!")
@@ -192,12 +198,12 @@ onMounted(() => {
 <template>
   <Header id="header"></Header>
   <div class='holder'>
-    <div class='Title'>PAGE OF THE DAY</div>
+    <div class='Title'>PAGE OF THE DAY {{ currentDatePage() }}</div>
     <div class='bttns-container' id='ActivityDIV'></div>
     <div class='bttns-container'>
       <a id="btnRandom" class="button">Random Color</a>
       <a id="btnClear" class="button">Clear Color</a>
-      <a id="btnShowcase" class="button gray">Showcase</a>
+      <a id="btnShowcase" class="button gray">Share</a>
     </div>
     <div id="prompt-container">
       <p id="prompt"> "{{ prompt }}" </p>
@@ -227,44 +233,39 @@ onMounted(() => {
   font-size: larger;
   font-weight: bold;
   text-align: center;
+  color:  #0B5D1E;
 }
 
 #prompt-response {
-  background-color: #134611;
-  color: inherit;
+  background-color:rgba(208, 241, 191, 1);
+  color: #0B5D1E;
   padding: 10px;
   width: 500px;
   height: 100px;
   font-size: larger;
+  border-color: rgba(208, 241, 191, 1);
 }
 
 .holder {
   width: 900px;
-  background-color: #0B5D1E;
-  /* border-radius: 35px; */
+  background-color: rgba(182, 215, 185, 1);
   align-self: center;
   justify-self: center;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   border: 0px solid;
-
   display: inline-block;
-
   padding: 2vmin;
   margin-bottom: 10px;
-
-
 }
 
 .Title {
-
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 25px;
   text-align: center;
   margin-bottom: 10px;
-  Color: white;
-
+  color:  #0B5D1E;
 }
 
 .bttns-container {
@@ -277,7 +278,7 @@ onMounted(() => {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   border: 0px;
-  margin: auto;
+  margin-top: 10px;
 }
 
 .buttons {
@@ -372,8 +373,6 @@ onMounted(() => {
 #ActivityDIV svg {
   width: 100%;
   height: 100%;
-  /* display:inline-block; */
-
 }
 
 #ActivityDIV svg path {
