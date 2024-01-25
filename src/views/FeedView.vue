@@ -17,16 +17,6 @@ function getPosts() {
         .then(json => {
             posts.value = { ...json }
             console.log(posts.value)
-            /* posts.value = objects with the following keys:
-                - date
-                -likes
-                -page
-                - postid
-                - prompt
-                - response
-                - username */
-            // used when were getting pages directly from aws s3 using aws sdk:
-            // pages.value = [...json].map(key => {return `https://mysvgfiles.s3.us-east-2.amazonaws.com/${key}`})
         })
         .catch(error => {
             console.log

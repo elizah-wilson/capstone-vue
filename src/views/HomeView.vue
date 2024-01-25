@@ -178,7 +178,7 @@ onMounted(() => {
     }
 
     // applies download functionality to the 
-    $.fn.btnShowcase = function () {
+    $.fn.btnShare = function () {
       element = this
       $(element).on('click', saveSVG)
     }
@@ -186,8 +186,7 @@ onMounted(() => {
     $('#ActivityDIV').makeSVGcolor(`https://mysvgfiles.s3.us-east-2.amazonaws.com/${currentDate()}/0.svg`)
     $('#btnRandom').btnRandom()
     $('#btnClear').btnClear()
-    // $('#btnDownloadSVG').btnDownload()
-    $('#btnShowcase').btnShowcase()
+    $('#btnShare').btnShare()
   }(jQuery));
 
 
@@ -203,7 +202,7 @@ onMounted(() => {
     <div class='bttns-container'>
       <a id="btnRandom" class="button">Random Color</a>
       <a id="btnClear" class="button">Clear Page</a>
-      <a id="btnShowcase" class="button gray">Share</a>
+      <a id="btnShare" class="button gray">Share</a>
     </div>
     <div id="prompt-container">
       <p id="prompt"> "{{ prompt }}" </p>
