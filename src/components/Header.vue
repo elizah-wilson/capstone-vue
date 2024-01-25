@@ -53,6 +53,8 @@ import { ref } from 'vue'
 .links {
     text-decoration: none;
     color: white;
+    /* -webkit-text-stroke: 1px white; */
+    text-shadow: 1px 1px rgba(184, 51, 106, 1);
 }
 
 #links-container {

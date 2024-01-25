@@ -48,7 +48,15 @@ function login() {
 
         <div id="about">
             <h1>The Coloring Book Club</h1>
-            <p id="about-text">exclusive community that uses coloring pages and discussion to promote relaxation, mindfulness and positivity</p>
+            <h4 id="about-text">
+                an exclusive online community for creativity, reflection, and positivity - 
+                <br>
+                where each day brings a new coloring page and writing prompt, designed to promote relaxation and mindfulness.
+                <br>
+                Showcase your creations and thoughts on our feed wall to inspire and be inspired.
+                <br>
+                Hurry, each the coloring page of the day and posts are only available for 24 hours. Join us in the art of mindful living.
+            </h4>
         </div>
     </div>
 

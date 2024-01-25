@@ -46,7 +46,7 @@ function likePost(postId) {
             return response.json()
         })
         .then(json => {
-            getPosts()
+            getPosts() // add timestamp column and can order by timestamp
         })
         .catch((error) => {
             console.log(error)
@@ -68,7 +68,6 @@ function likePost(postId) {
                     Likes {{ post.likes }}
                 </div>
                 <div id="caption">
-                    <p> "{{ post.prompt }}"</p>
                     <p id="response"> {{ post.response }}</p>
                 </div>
             </div>
@@ -83,7 +82,9 @@ function likePost(postId) {
 <style scoped>
 #feed {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     margin-bottom: 20px;
 }

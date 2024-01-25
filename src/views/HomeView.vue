@@ -202,12 +202,12 @@ onMounted(() => {
     <div class='bttns-container' id='ActivityDIV'></div>
     <div class='bttns-container'>
       <a id="btnRandom" class="button">Random Color</a>
-      <a id="btnClear" class="button">Clear Color</a>
+      <a id="btnClear" class="button">Clear Page</a>
       <a id="btnShowcase" class="button gray">Share</a>
     </div>
     <div id="prompt-container">
       <p id="prompt"> "{{ prompt }}" </p>
-      <textarea id="prompt-response" placeholder="Write your musings here..." maxlength="280" v-model="response"></textarea>
+      <textarea id="prompt-response" placeholder="Write the thoughts and emotions that are envoked when you read the quote above..." maxlength="280" v-model="response"></textarea>
     </div>
   </div>
 </template>
@@ -234,6 +234,7 @@ onMounted(() => {
   font-weight: bold;
   text-align: center;
   color:  #0B5D1E;
+  width: 600px;
 }
 
 #prompt-response {
@@ -272,8 +273,6 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  align-self: center;
-  justify-self: center;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -281,11 +280,6 @@ onMounted(() => {
   margin-top: 10px;
 }
 
-.buttons {
-  display: inline-block;
-  padding: 15px;
-
-}
 
 .button {
   transition-duration: 0.4s;

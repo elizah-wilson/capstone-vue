@@ -1,5 +1,10 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+
+function register() {
+    
+}
+
 </script>
 
 <template>
@@ -18,11 +23,13 @@ import { RouterLink } from 'vue-router';
 
         <div id="about">
             <h1>The Coloring Book Club</h1>
-            <p id="about-text">exclusive community that uses coloring pages and discussion to promote relaxation, mindfulness and positivity</p>
+            <p id="about-text">
+                Exclusive online community that uses coloring and writing prompts to reflect on life, and promote relaxation, mindfulness and positivity.
+                <br>
+                Each day there is a new coloring page and mindful writing prompt that you can post to the feed wall to showcase your creativity and thoughts to the club. 
+            </p>
         </div>
     </div>
-
-
 
 </template>
 
@@ -70,6 +77,7 @@ import { RouterLink } from 'vue-router';
 
 #about-text {
     width: 600px;
+    font-weight: bold;
 }
 
 #register-bttn {

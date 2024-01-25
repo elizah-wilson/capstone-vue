@@ -7,4 +7,8 @@ import Header from '../components/Header.vue'
     <h1>Coming soon...</h1>
 </template>
 
-<style scoped></style>
+<style scoped>
+    h1 {
+        color:  #0B5D1E;
+    }
+</style>
