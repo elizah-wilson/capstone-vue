@@ -21,7 +21,7 @@ function currentDatePage() {
 
 //fetchs quote of the day from my api
 function fetchPrompt() {
-  fetch("http://localhost:3000/daily-quote")
+  fetch("https://coloring-book-club.onrender.com/daily-quote")
     .then((response) => {
       return response.text()
     })
