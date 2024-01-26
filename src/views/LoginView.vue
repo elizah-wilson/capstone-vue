@@ -12,7 +12,7 @@ function login() {
         "password": password.value
     }
 
-    fetch("http://localhost:3000/login",
+    fetch("https://coloring-book-club.onrender.com/login",
         {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reqBody),

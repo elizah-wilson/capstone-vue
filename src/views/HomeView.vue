@@ -35,7 +35,7 @@ fetchPrompt()
 function uploadSVG(svgInfo) {
 
   //sends svg info to backend, which then puts svg info into object inside of s3 bucket
-  fetch("http://localhost:3000/upload/",
+  fetch("https://coloring-book-club.onrender.com/upload/",
     {
       headers: { "Content-Type": "application/json", "Authorization": document.cookie },
       // curly brackets implies that element it is an object, so looking for key value pairs

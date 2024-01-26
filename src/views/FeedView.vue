@@ -6,7 +6,7 @@ import { ref } from 'vue'
 let posts = ref([])
 
 function getPosts() {
-    fetch('http://localhost:3000/get-posts',
+    fetch('https://coloring-book-club.onrender.com/get-posts',
         {
             headers: { "Authorization": document.cookie },
             method: "GET"
@@ -27,7 +27,7 @@ getPosts()
 
 function likePost(postId) {
 
-    fetch('http://localhost:3000/like-post', {
+    fetch('https://coloring-book-club.onrender.com/like-post', {
         headers: { "Authorization": document.cookie, "Content-Type": "application/json" },
         body: JSON.stringify({ "postId": postId }),
         method: "PUT"
